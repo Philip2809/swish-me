@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swish Me</title>
+</head>
+<body>
+    
+    <p>right now this site is just for testing the capabilties, soon it will be a nice web app :)</p>
+
+
+    <p>https a links</p>
+    <a href="https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr" target="_blank">nothing allowed, everying in url</a>
+    <br>
+    <a href="https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message" target="_blank">nothing allowed, remove "useless"</a>
+    <br>
+    <a href="https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr&edit=msg,amt" target="_blank">all allowed, everying in url</a>
+    <br>
+    <a href="https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message&edit=msg,amt" target="_blank">all allowed, remove "useless"</a>
+
+    <br>
+    <br>
+
+    <p>swish a links</p>
+    <a href="swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr" target="_blank">nothing allowed, everying in url</a>
+    <br>
+    <a href="swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message" target="_blank">nothing allowed, remove "useless"</a>
+    <br>
+    <a href="swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr&edit=msg,amt" target="_blank">all allowed, everying in url</a>
+    <br>
+    <a href="swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message&edit=msg,amt" target="_blank">all allowed, remove "useless"</a>
+
+
+    <p>https window.open functions</p>
+    <button onclick='window.open(`https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr`, "_blank")' >noting allowed, everying in url</button>
+    <br>
+    <button onclick='window.open(`https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message`, "_blank")' >nothing allowed, remove "useless"</button>
+    <br>
+    <button onclick='window.open(`https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr&edit=msg,amt`, "_blank")' >all allowed, everying in url</button>
+    <br>
+    <button onclick='window.open(`https://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message&edit=msg,amt`, "_blank")' >all allowed, remove "useless"</button>
+    
+    <br>
+    <br>
+
+    
+    <p>swish window.open functions</p>
+    <button onclick='window.open(`swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr`, "_blank")' >noting allowed, everying in url</button>
+    <br>
+    <button onclick='window.open(`swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message`, "_blank")' >nothing allowed, remove "useless"</button>
+    <br>
+    <button onclick='window.open(`swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr&edit=msg,amt`, "_blank")' >all allowed, everying in url</button>
+    <br>
+    <button onclick='window.open(`swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&msg=Message&edit=msg,amt`, "_blank")' >all allowed, remove "useless"</button>
+    
+
+
+</body>
+</html>
