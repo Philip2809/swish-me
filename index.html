@@ -24,6 +24,10 @@
         var auto2 = url.searchParams.get("auto2");
         var auto3 = url.searchParams.get("auto3");
         var auto4 = url.searchParams.get("auto4");
+
+        var testSafari = url.searchParams.get("saf");
+        var testSwish = url.searchParams.get("swish");
+
         if (auto) {
             location.href = urls[auto] || location.href;
         } else if (auto2) {
@@ -34,6 +38,10 @@
             const a = document.createElement("a");
             a.href = urls[auto4] || location.href;
             a.click();
+        } else if (testSafari) {
+            location.href = "safari://"
+        } else if (testSwish) {
+            location.href = "swish://"
         }
         
         
