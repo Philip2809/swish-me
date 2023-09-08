@@ -25,7 +25,6 @@
         var auto3 = url.searchParams.get("auto3");
         var auto4 = url.searchParams.get("auto4");
 
-        var testSafari = url.searchParams.get("saf");
         var testSwish = url.searchParams.get("swish");
 
         if (auto) {
@@ -38,10 +37,15 @@
             const a = document.createElement("a");
             a.href = urls[auto4] || location.href;
             a.click();
-        } else if (testSafari) {
-            location.href = "safari://"
         } else if (testSwish) {
-            location.href = "swish://"
+            const urls = [
+                "swish://",
+                "swish://app.swish.nu/1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr",
+                "swish://?sw=0760338521&amt=1&msg=Message",
+                "swish://sw=0760338521&amt=1&msg=Message",
+                "swish://1/p/sw/?sw=0760338521&amt=1&cur=SEK&msg=Message&src=qr&edit=msg,amt",
+            ]
+            location.href = urls[testSwish] || location.href;
         }
         
         
