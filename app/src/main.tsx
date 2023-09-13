@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import Create from './Create.tsx'
 import './index.css'
-import { buildUrl, isIOS, isSnapchat } from './helper.ts';
+import { buildUrl, isIOSWebView } from './helper.ts';
 import Redirect from './Redirect.tsx';
 
 let swishUrl = '';
@@ -18,7 +18,7 @@ if (number && number.length === 10 && (number.match(/07[0-9]{8}$/) || number.mat
     if (msg.length <= 50) {
       // automatically redirect to swish
       swishUrl = buildUrl(number, Number(amt), msg, edit?.includes("a") || false, edit?.includes("m") || false);
-      if (!isIOS || !isSnapchat) location.href = swishUrl; 
+      if (!isIOSWebView) location.href = swishUrl; 
     }
   }
 }

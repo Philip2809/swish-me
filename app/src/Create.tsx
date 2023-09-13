@@ -6,6 +6,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import ShareIcon from '@mui/icons-material/Share';
+import { validate } from './helper';
+import { useState } from 'react';
 
 const SwishMeInput = styled(TextField)({
   '&': {
@@ -52,13 +54,16 @@ const SwishMeButton = styled(Button)({
 
 function Create() {
 
+  const [randomEnabled, setRandomEnabled] = useState('false');
+
   return (
     <>
+    {randomEnabled}
       <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} />
       <SwishMeInput id='amt' label="Belopp" inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
       <SwishMeInput id='msg' label="Meddelande" inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
-      <FormControlLabel control={<SwishMeCheckbox id='randomMsg' />} label="Random meddelande" />
+      <FormControlLabel control={<SwishMeCheckbox id='randomMsg' onInput={(v) => setRandomEnabled(v.currentTarget.value)} />} label="Random meddelande" />
       <FormControlLabel control={<SwishMeCheckbox id='editMsg' />} label="Tillåt redigering" />
 
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
@@ -76,16 +81,20 @@ function Create() {
             const number = (document.getElementById('number') as HTMLInputElement).value;
             const amt = (document.getElementById('amt') as HTMLInputElement).value;
             const msg = (document.getElementById('msg') as HTMLInputElement).value;
-            const editAmt = (document.getElementById('editAmt') as HTMLInputElement).checked;
-            // const randomMsg = (document.getElementById('randomMsg') as HTMLInputElement).checked;
-            const editMsg = (document.getElementById('editMsg') as HTMLInputElement).checked;
-            // let edit = [];
-            // if (editAmt) edit.push('a');
-            // if (editMsg) edit.push('m');
             
-            navigator.share({
-              url: `${location.origin}/?n=${number}&a=${amt}&m=${msg}&e=${editAmt ? 'a' : ''}${editMsg ? 'm' : ''}`,
-            })
+            if (validate(number, amt, msg)) {
+              const editAmt = (document.getElementById('editAmt') as HTMLInputElement).checked;
+              // const randomMsg = (document.getElementById('randomMsg') as HTMLInputElement).checked;
+              const editMsg = (document.getElementById('editMsg') as HTMLInputElement).checked;
+              const edit = [];
+              if (editAmt) edit.push('a');
+              if (editMsg) edit.push('m');
+              
+              navigator.share({
+                url: `${location.origin}/?n=${number}&a=${amt}&m=${msg}${edit.length > 0 ? `&e=${edit.join()}` : ''}`,
+              })
+            }
+
           }}
         >
           Dela
