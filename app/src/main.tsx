@@ -1,26 +1,28 @@
 import ReactDOM from 'react-dom/client'
 import Create from './Create.tsx'
 import './index.css'
-import { buildUrl, isIOSWebView } from './helper.ts';
+import { buildUrl, isIOSWebView, validate } from './helper.ts';
 import Redirect from './Redirect.tsx';
+
+
+const randomMsgs = [
+  "Tack för avsugningen!",
+  "Det var roligt igår ;)"
+]
 
 let swishUrl = '';
 
 const url = new URL(location.href);
-const number = url.searchParams.get("n");
-const amt = url.searchParams.get("a");
-const msg = url.searchParams.get("m") || '';
-const edit = url.searchParams.get("e");
+const number = url.searchParams.get("n") || '';
+const amt = url.searchParams.get("a") || '';
+let msg = url.searchParams.get("m") || '';
+const edit = url.searchParams.get("e") || '';
+const random = (url.searchParams.get("r") || '') === '1';
 
-// validate url
-if (number && number.length === 10 && (number.match(/07[0-9]{8}$/) || number.match(/123[0-9]{7}$/))) {
-  if (!isNaN(Number(amt)) && Number(amt) > 1) {
-    if (msg.length <= 50) {
-      // automatically redirect to swish
-      swishUrl = buildUrl(number, Number(amt), msg, edit?.includes("a") || false, edit?.includes("m") || false);
-      if (!isIOSWebView) location.href = swishUrl; 
-    }
-  }
+if (validate(number, amt, msg)) {
+  if (random) msg = encodeURIComponent(randomMsgs[Math.floor(Math.random() * randomMsgs.length)]);
+  swishUrl = buildUrl(number, Number(amt), msg, edit.includes("a"), edit.includes("m"));
+  if (!isIOSWebView) location.href = swishUrl; 
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

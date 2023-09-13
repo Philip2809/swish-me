@@ -54,16 +54,16 @@ const SwishMeButton = styled(Button)({
 
 function Create() {
 
-  const [randomEnabled, setRandomEnabled] = useState('false');
+  const [randomEnabled, setRandomEnabled] = useState(false);
 
   return (
     <>
     {randomEnabled}
-      <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} />
+      <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} defaultValue={localStorage.getItem('number') || ''} />
       <SwishMeInput id='amt' label="Belopp" inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
-      <SwishMeInput id='msg' label="Meddelande" inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
-      <FormControlLabel control={<SwishMeCheckbox id='randomMsg' onInput={(v) => setRandomEnabled(v.currentTarget.value)} />} label="Random meddelande" />
+      <SwishMeInput id='msg' label="Meddelande" disabled={randomEnabled} inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
+      <FormControlLabel control={<SwishMeCheckbox id='randomMsg' onChange={(v) => setRandomEnabled(v.target.checked)} />} label="Random meddelande" />
       <FormControlLabel control={<SwishMeCheckbox id='editMsg' />} label="Tillåt redigering" />
 
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
@@ -84,14 +84,15 @@ function Create() {
             
             if (validate(number, amt, msg)) {
               const editAmt = (document.getElementById('editAmt') as HTMLInputElement).checked;
-              // const randomMsg = (document.getElementById('randomMsg') as HTMLInputElement).checked;
               const editMsg = (document.getElementById('editMsg') as HTMLInputElement).checked;
               const edit = [];
               if (editAmt) edit.push('a');
               if (editMsg) edit.push('m');
-              
+
+              localStorage.setItem('number', number);
+
               navigator.share({
-                url: `${location.origin}/?n=${number}&a=${amt}&m=${msg}${edit.length > 0 ? `&e=${edit.join()}` : ''}`,
+                url: `${location.origin}/?n=${number}&a=${amt}${randomEnabled ? '&r=1' : msg ? `&m=${msg}` : ''}${edit.length > 0 ? `&e=${edit.join()}` : ''}`,
               })
             }
 
