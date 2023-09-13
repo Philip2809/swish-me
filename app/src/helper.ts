@@ -1,4 +1,5 @@
 export const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+export const isSnapchat = /Snapchat/.test(navigator.userAgent);
 export const swishLink = 'app.swish.nu/1/p/sw';
 export const appPrefix = isIOS ? 'https://' : 'swish://';
 export const PREFIX = `${appPrefix}${swishLink}`

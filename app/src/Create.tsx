@@ -58,6 +58,7 @@ function Create() {
       <SwishMeInput id='amt' label="Belopp" inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
       <SwishMeInput id='msg' label="Meddelande" inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
+      <FormControlLabel control={<SwishMeCheckbox id='randomMsg' />} label="Random meddelande" />
       <FormControlLabel control={<SwishMeCheckbox id='editMsg' />} label="Tillåt redigering" />
 
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
@@ -72,8 +73,18 @@ function Create() {
           variant="contained"
           startIcon={<ShareIcon />}
           onClick={() => {
+            const number = (document.getElementById('number') as HTMLInputElement).value;
+            const amt = (document.getElementById('amt') as HTMLInputElement).value;
+            const msg = (document.getElementById('msg') as HTMLInputElement).value;
+            const editAmt = (document.getElementById('editAmt') as HTMLInputElement).checked;
+            // const randomMsg = (document.getElementById('randomMsg') as HTMLInputElement).checked;
+            const editMsg = (document.getElementById('editMsg') as HTMLInputElement).checked;
+            // let edit = [];
+            // if (editAmt) edit.push('a');
+            // if (editMsg) edit.push('m');
+            
             navigator.share({
-              url: `${location.origin}?n=0760338522`,
+              url: `${location.origin}/?n=${number}&a=${amt}&m=${msg}&e=${editAmt ? 'a' : ''}${editMsg ? 'm' : ''}`,
             })
           }}
         >
