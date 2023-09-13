@@ -1,25 +1,17 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>swish Me</title>
-    <meta property="og:site_name" content="Swish me" />
-    <meta property="og:title" content="Swish Me!" />
-    <script>
-      // change "og:title" to something in the url parameter
-      const urlParams = new URLSearchParams(window.location.search);
-      const title = urlParams.get("n");
-      document.title = title ? title : "Swish Me!";
-      document.querySelector(
-        'meta[property="og:title"]'
-      ).content = title ? title : "Swish Me123!";
 
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swish Me!</title>
+
+  <meta name="title" content="Swish Me!" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

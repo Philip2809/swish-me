@@ -8,7 +8,8 @@ import QrCode2Icon from '@mui/icons-material/QrCode2';
 import ShareIcon from '@mui/icons-material/Share';
 import { validate } from './helper';
 import { useState } from 'react';
-import QRCode from 'qrcode'
+import QRCode from 'qrcode';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 const SwishMeInput = styled(TextField)({
   '&': {
@@ -56,12 +57,11 @@ const SwishMeButton = styled(Button)({
 
 
 function Create() {
-
+  const [open, setOpen] = useState(false);
   const [randomEnabled, setRandomEnabled] = useState(false);
 
   return (
     <>
-      {randomEnabled}
       <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} defaultValue={localStorage.getItem('number') || ''} />
       <SwishMeInput id='amt' label="Belopp" inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
@@ -69,14 +69,12 @@ function Create() {
       <FormControlLabel control={<SwishMeCheckbox id='randomMsg' onChange={(v) => setRandomEnabled(v.target.checked)} />} label="Random meddelande" />
       <FormControlLabel control={<SwishMeCheckbox id='editMsg' />} label="Tillåt redigering" />
 
-      <canvas id='test' height={200} width={200}></canvas>
-
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <SwishMeButton
           variant="contained"
           startIcon={<QrCode2Icon />}
           onClick={() => {
-            const canvas = document.getElementById('test') as HTMLCanvasElement | undefined;
+            const canvas = document.getElementById('qr') as HTMLCanvasElement | undefined;
             if (!canvas) return;
             const number = (document.getElementById('number') as HTMLInputElement).value;
             const amt = (document.getElementById('amt') as HTMLInputElement).value;
@@ -90,8 +88,9 @@ function Create() {
               if (editMsg) edit.push('m');
 
               localStorage.setItem('number', number);
-
-              QRCode.toCanvas(canvas, `${location.origin}/?n=${number}&a=${amt}${randomEnabled ? '&r=1' : msg ? `&m=${msg}` : ''}${edit.length > 0 ? `&e=${edit.join()}` : ''}`)
+              setOpen(true);
+              const url = `${location.origin}/?n=${number}&a=${amt}${randomEnabled ? '&r=1' : msg ? `&m=${msg}` : ''}${edit.length > 0 ? `&e=${edit.join()}` : ''}`;
+              QRCode.toCanvas(canvas, url, { errorCorrectionLevel: 'H', margin: 2, width: 300 })
             }
           }}
         >
@@ -125,6 +124,18 @@ function Create() {
           Dela
         </SwishMeButton>}
       </div>
+
+      <SwipeableDrawer
+        anchor='bottom'
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => { }}
+        PaperProps={{ style: { background: 'linear-gradient(135deg, rgb(2, 175, 210) 0%, 31.6138%, rgb(23, 99, 191) 63.2275%, 81.6138%, rgb(11, 43, 161) 100%)', boxShadow: 'none' } }}
+        disableSwipeToOpen>
+        <div style={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <canvas id='qr' style={{ width: '100%', height: '100%' }} ></canvas>
+        </div>
+      </SwipeableDrawer>
     </>
   )
 }

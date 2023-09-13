@@ -7,7 +7,8 @@ import Redirect from './Redirect.tsx';
 
 const randomMsgs = [
   "Tack för avsugningen!",
-  "Det var roligt igår ;)"
+  "Det var roligt igår ;)",
+  "Tack för hjälpen!",
 ]
 
 let swishUrl = '';
