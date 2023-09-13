@@ -8,7 +8,14 @@
     <meta property="og:site_name" content="Swish me" />
     <meta property="og:title" content="Swish Me!" />
     <script>
-      document.title = 'swish me'
+      // change "og:title" to something in the url parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const title = urlParams.get("n");
+      document.title = title ? title : "Swish Me!";
+      document.querySelector(
+        'meta[property="og:title"]'
+      ).content = title ? title : "Swish Me123!";
+
     </script>
   </head>
   <body>
