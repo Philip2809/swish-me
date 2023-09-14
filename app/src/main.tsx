@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import Create from './Create.tsx'
 import './index.css'
-import { buildUrl, isIOSWebView, validate } from './helper.ts';
+import { buildUrl, validate } from './helper.ts';
 import Redirect from './Redirect.tsx';
 
 
@@ -23,7 +23,7 @@ const random = (url.searchParams.get("r") || '') === '1';
 if (validate(number, amt, msg)) {
   if (random) msg = encodeURIComponent(randomMsgs[Math.floor(Math.random() * randomMsgs.length)]);
   swishUrl = buildUrl(number, Number(amt), msg, edit.includes("a"), edit.includes("m"));
-  if (!isIOSWebView) location.href = swishUrl; 
+  // if (!isIOSWebView) location.href = swishUrl; 
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
