@@ -14,6 +14,7 @@ import { Chip, IconButton, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
+import { RiDivideFill } from 'react-icons/ri'
 
 const SwishMeInput = styled(TextField)({
   '&': {
@@ -85,7 +86,7 @@ function Create() {
           <Chip label={<CloseIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
         </IconButton>
         <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '/'; e.preventDefault() }}>
-          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+          <Chip label={<RiDivideFill />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }, fontSize: '1em' }} />
         </IconButton>
       </Stack>
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
