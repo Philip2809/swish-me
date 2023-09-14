@@ -7,9 +7,13 @@ import Button from '@mui/material/Button';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import ShareIcon from '@mui/icons-material/Share';
 import { validate } from './helper';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { Chip, IconButton, Stack } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import CloseIcon from '@mui/icons-material/Close';
 
 const SwishMeInput = styled(TextField)({
   '&': {
@@ -59,11 +63,31 @@ const SwishMeButton = styled(Button)({
 function Create() {
   const [open, setOpen] = useState(false);
   const [randomEnabled, setRandomEnabled] = useState(false);
+  const amountRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
       <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} defaultValue={localStorage.getItem('number') || ''} />
-      <SwishMeInput id='amt' label="Belopp" inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
+      <SwishMeInput id='amt' label="Belopp" inputRef={amountRef} onBlur={(i) => {
+        const input = i.target.value.replace(/[^-()\d/*+.]/g, '');
+        if (!input.match(/\d/)) { i.target.value = ''; return; }
+        const math = eval(input);
+        if (math) i.target.value = math >= 1 ? math : '';
+      }} inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
+      <Stack direction='row'>
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '+'; e.preventDefault() }}>
+          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        </IconButton>
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '-'; e.preventDefault() }}>
+          <Chip label={<RemoveIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        </IconButton>
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '*'; e.preventDefault() }}>
+          <Chip label={<CloseIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        </IconButton>
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '/'; e.preventDefault() }}>
+          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        </IconButton>
+      </Stack>
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
       <SwishMeInput id='msg' label="Meddelande" disabled={randomEnabled} inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
       <FormControlLabel control={<SwishMeCheckbox id='randomMsg' onChange={(v) => setRandomEnabled(v.target.checked)} />} label="Random meddelande" />
