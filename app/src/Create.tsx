@@ -73,20 +73,20 @@ function Create() {
         const input = i.target.value.replace(/[^-()\d/*+.]/g, '');
         if (!input.match(/\d/)) { i.target.value = ''; return; }
         const math = eval(input);
-        if (math) i.target.value = math >= 1 ? math : '';
+        if (math) i.target.value = math >= 1 ? (Math.round(math * 100) / 100).toString() : '';
       }} inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <Stack direction='row'>
-        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '+'; e.preventDefault() }}>
-          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '+'; e.preventDefault() }}>
+          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' }}} />
         </IconButton>
-        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '-'; e.preventDefault() }}>
-          <Chip label={<RemoveIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '-'; e.preventDefault() }}>
+          <Chip label={<RemoveIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' }}} />
         </IconButton>
-        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '*'; e.preventDefault() }}>
-          <Chip label={<CloseIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }}} />
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '*'; e.preventDefault() }}>
+          <Chip label={<CloseIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' }}} />
         </IconButton>
-        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current) amountRef.current.value += '/'; e.preventDefault() }}>
-          <Chip label={<RiDivideFill />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }, fontSize: '1em' }} />
+        <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '/'; e.preventDefault() }}>
+          <Chip label={<RiDivideFill />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }, fontSize: '1em', color: 'white' }} />
         </IconButton>
       </Stack>
       <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
