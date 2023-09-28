@@ -14,7 +14,9 @@ import { Chip, IconButton, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
-import { RiDivideFill } from 'react-icons/ri'
+import { RiDivideFill } from 'react-icons/ri';
+import { FaHome, FaGithub } from 'react-icons/fa';
+import styles from './Create.module.scss';
 
 const SwishMeInput = styled(TextField)({
   '&': {
@@ -68,6 +70,14 @@ function Create() {
 
   return (
     <>
+
+      <div className={styles.linkIcons}>
+        <div className={styles.iconHolder}>
+          <a href="https://phma.dev" target='_blank'><FaHome className={styles.icon} id={styles.homeIcon} /></a>
+          <a href="https://github.com/Philip2809/swish-me" target='_blank'><FaGithub className={styles.icon} /></a>
+        </div>
+      </div>
+
       <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} defaultValue={localStorage.getItem('number') || ''} />
       <SwishMeInput id='amt' label="Belopp" inputRef={amountRef} onBlur={(i) => {
         const input = i.target.value.replace(/[^-()\d/*+.]/g, '');
@@ -77,13 +87,13 @@ function Create() {
       }} inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <Stack direction='row'>
         <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '+'; e.preventDefault() }}>
-          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' }}} />
+          <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' } }} />
         </IconButton>
         <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '-'; e.preventDefault() }}>
-          <Chip label={<RemoveIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' }}} />
+          <Chip label={<RemoveIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' } }} />
         </IconButton>
         <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '*'; e.preventDefault() }}>
-          <Chip label={<CloseIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' }}} />
+          <Chip label={<CloseIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' } }} />
         </IconButton>
         <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '/'; e.preventDefault() }}>
           <Chip label={<RiDivideFill />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }, fontSize: '1em', color: 'white' }} />
