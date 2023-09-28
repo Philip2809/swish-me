@@ -9,6 +9,7 @@ const randomMsgs = [
   "Tack för avsugningen!",
   "Det var roligt igår ;)",
   "Tack för hjälpen!",
+  "Till tvätten",
 ]
 
 let swishUrl = '';
