@@ -3,7 +3,7 @@ export const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isIOSWebView = isIOS ? detectIosWebView() : false;
 export const swishLink = 'app.swish.nu/1/p/sw';
-export const appPrefix = isIOS ? 'https://' : 'swish://';
+export const appPrefix = 'https://';
 export const PREFIX = `${appPrefix}${swishLink}`
 
 export function buildUrl(number: string, amount: number, message: string, allowAmt: boolean, allowMsg: boolean) {
