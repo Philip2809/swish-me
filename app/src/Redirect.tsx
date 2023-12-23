@@ -1,5 +1,5 @@
 import styles from './Redirect.module.scss';
-import { AMOUNT, MESSAGE, NUMBER, RANDOM } from './helper';
+import { ALLOW_EDIT_AMOUNT, ALLOW_EDIT_MESSAGE, AMOUNT, MESSAGE, NUMBER, RANDOM, buildUrl } from './helper';
 
 function Redirect() {
   return (
@@ -11,7 +11,7 @@ function Redirect() {
           { RANDOM ? <i>Meddelandet är en överraskning</i> :  MESSAGE ? `"${MESSAGE}"` : <i>Inget meddelande inkluderat</i> }
         </span>
         <span className={styles.warning}>OSB! Kontrollera <u>alltid</u> att informationen i Swish-appen och BankId är korrekt!</span>
-        <a className={styles.swishBtn} href={''}>Fortsätt till Swish</a>
+        <a className={styles.swishBtn} href={buildUrl(NUMBER, Number(AMOUNT), MESSAGE, ALLOW_EDIT_AMOUNT, ALLOW_EDIT_MESSAGE)}>Fortsätt till Swish</a>
       </div>
     </>
   )
