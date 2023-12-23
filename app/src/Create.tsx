@@ -10,12 +10,15 @@ import { validate } from './helper';
 import { useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Chip, IconButton, Stack } from '@mui/material';
+import { Chip, IconButton, InputAdornment, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { RiDivideFill } from 'react-icons/ri';
 import { FaHome, FaGithub } from 'react-icons/fa';
+import { useSnackbar } from 'notistack';
 import styles from './Create.module.scss';
 
 const SwishMeInput = styled(TextField)({
@@ -66,11 +69,13 @@ const SwishMeButton = styled(Button)({
 function Create() {
   const [open, setOpen] = useState(false);
   const [randomEnabled, setRandomEnabled] = useState(false);
+  const [editAmt, setEditAmt] = useState(false);
+  const [editMsg, setEditMsg] = useState(false);
   const amountRef = useRef<HTMLInputElement>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   return (
     <>
-
       <div className={styles.linkIcons}>
         <div className={styles.iconHolder}>
           <a href="https://phma.dev" target='_blank'><FaHome className={styles.icon} id={styles.homeIcon} /></a>
@@ -79,12 +84,24 @@ function Create() {
       </div>
 
       <SwishMeInput id='number' label="Nummer" inputProps={{ inputMode: 'numeric', placeholder: '0760123456', maxLength: 10 }} defaultValue={localStorage.getItem('number') || ''} />
-      <SwishMeInput id='amt' label="Belopp" inputRef={amountRef} onBlur={(i) => {
-        const input = i.target.value.replace(/[^-()\d/*+.]/g, '');
-        if (!input.match(/\d/)) { i.target.value = ''; return; }
-        const math = eval(input);
-        if (math) i.target.value = math >= 1 ? (Math.round(math * 100) / 100).toString() : '';
-      }} inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
+      <SwishMeInput id='amt'
+        label="Belopp"
+        inputRef={amountRef}
+        onBlur={(i) => {
+          const input = i.target.value.replace(/[^-()\d/*+.]/g, '');
+          if (!input.match(/\d/)) { i.target.value = ''; return; }
+          const math = eval(input);
+          if (math) i.target.value = math >= 1 ? (Math.round(math * 100) / 100).toString() : '';
+        }}
+        InputProps={{ 
+          endAdornment: <InputAdornment position="end">
+            <IconButton
+              onClick={() => setEditAmt(e => !e)}>
+              {editAmt ? <LockOpenIcon /> : <LockIcon />}
+            </IconButton>
+          </InputAdornment>,
+         }}
+        inputProps={{ inputMode: 'numeric', placeholder: '69.420' }} />
       <Stack direction='row'>
         <IconButton color='primary' onTouchEnd={(e) => { if (amountRef?.current?.value?.length) amountRef.current.value += '+'; e.preventDefault() }}>
           <Chip label={<AddIcon />} sx={{ '& span': { display: 'flex', justifyContent: 'center', color: 'white' } }} />
@@ -99,10 +116,19 @@ function Create() {
           <Chip label={<RiDivideFill />} sx={{ '& span': { display: 'flex', justifyContent: 'center' }, fontSize: '1em', color: 'white' }} />
         </IconButton>
       </Stack>
-      <FormControlLabel control={<SwishMeCheckbox id='editAmt' />} label="Tillåt redigering" />
-      <SwishMeInput id='msg' label="Meddelande" disabled={randomEnabled} inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
+      <SwishMeInput id='msg' 
+        label="Meddelande" 
+        disabled={randomEnabled} 
+        InputProps={{ 
+          endAdornment: <InputAdornment position="end">
+            <IconButton
+              onClick={() => setEditMsg(e => !e)}>
+              {editMsg ? <LockOpenIcon /> : <LockIcon />}
+            </IconButton>
+          </InputAdornment>,
+         }}
+        inputProps={{ placeholder: 'Tack för avsugningen', maxLength: 50 }} />
       <FormControlLabel control={<SwishMeCheckbox id='randomMsg' onChange={(v) => setRandomEnabled(v.target.checked)} />} label="Random meddelande" />
-      <FormControlLabel control={<SwishMeCheckbox id='editMsg' />} label="Tillåt redigering" />
 
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <SwishMeButton
@@ -115,9 +141,9 @@ function Create() {
             const amt = (document.getElementById('amt') as HTMLInputElement).value;
             const msg = (document.getElementById('msg') as HTMLInputElement).value;
 
-            if (validate(number, amt, msg)) {
-              const editAmt = (document.getElementById('editAmt') as HTMLInputElement).checked;
-              const editMsg = (document.getElementById('editMsg') as HTMLInputElement).checked;
+            const valid = validate(number, amt, msg);
+
+            if (valid === true) {
               const edit = [];
               if (editAmt) edit.push('a');
               if (editMsg) edit.push('m');
@@ -126,6 +152,8 @@ function Create() {
               setOpen(true);
               const url = `${location.origin}/?n=${number}&a=${amt}${randomEnabled ? '&r=1' : msg ? `&m=${msg}` : ''}${edit.length > 0 ? `&e=${edit.join()}` : ''}`;
               QRCode.toCanvas(canvas, url, { errorCorrectionLevel: 'H', margin: 2, width: 300 })
+            } else {
+              enqueueSnackbar(valid, { variant: 'error' });
             }
           }}
         >
@@ -140,9 +168,9 @@ function Create() {
             const amt = (document.getElementById('amt') as HTMLInputElement).value;
             const msg = (document.getElementById('msg') as HTMLInputElement).value;
 
-            if (validate(number, amt, msg)) {
-              const editAmt = (document.getElementById('editAmt') as HTMLInputElement).checked;
-              const editMsg = (document.getElementById('editMsg') as HTMLInputElement).checked;
+            const valid = validate(number, amt, msg);
+
+            if (valid === true) {
               const edit = [];
               if (editAmt) edit.push('a');
               if (editMsg) edit.push('m');
@@ -152,6 +180,8 @@ function Create() {
               navigator.share({
                 url: `${location.origin}/?n=${number}&a=${amt}${randomEnabled ? '&r=1' : msg ? `&m=${msg}` : ''}${edit.length > 0 ? `&e=${edit.join()}` : ''}`,
               })
+            } else {
+              enqueueSnackbar(valid, { variant: 'error' });
             }
 
           }}

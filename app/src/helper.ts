@@ -24,17 +24,45 @@ export function buildUrl(number: string, amount: number, message: string, allowA
     return url;
 }
 
+enum InputErrors {
+    NUMBER = 'Numret måste vara 10 siffror och börja på 07 eller 123',
+    AMOUNT_MIN = 'Beloppet måste vara minst 1 SEK',
+    AMOUNT_MAX = 'Beloppet får vara max 150 000 SEK',
+    MESSAGE = 'Meddelandet får vara max 50 tecken',
+}
+
 export function validate(number: string, amount: string, message: string) {
     if (number && number.length === 10 && (number.match(/07[0-9]{8}$/) || number.match(/123[0-9]{7}$/))) {
         if (!isNaN(Number(amount)) && Number(amount) >= 1) {
-          if (message.length <= 50) {
-            return true;
-          }
+            if (Number(amount) <= 150000) {
+                if (message.length <= 50) {
+                    return true;
+                }
+                return InputErrors.MESSAGE;
+            }
+            return InputErrors.AMOUNT_MAX;
         }
+        return InputErrors.AMOUNT_MIN;
     }
-    return false;
+    return InputErrors.NUMBER;
 }
 
+const randomMsgs = [
+    "Tack för avsugningen!",
+    "Det var roligt igår ;)",
+    "Tack för hjälpen!",
+    "Till tvätten",
+]
+
+const url = new URL(location.href);
+export const NUMBER = url.searchParams.get("n") || '';
+export const AMOUNT = url.searchParams.get("a") || '';
+export let MESSAGE = url.searchParams.get("m") || '';
+export const RANDOM = (url.searchParams.get("r") || '') === '1';
+if (RANDOM) MESSAGE = randomMsgs[Math.floor(Math.random() * randomMsgs.length)];
+const edit = url.searchParams.get("e") || '';
+export const ALLOW_EDIT_AMOUNT = edit.includes("a");
+export const ALLOW_EDIT_MESSAGE = edit.includes("m");
 
 
 

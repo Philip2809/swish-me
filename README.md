@@ -1,5 +1,8 @@
 # [swish-me](https://swish-me.phma.dev)
 Create and share swish link to make swishing easier!
+
+# Developing, new pictures and more on the way!
+
 #
 [Swish](https://swish.nu) is an app in Sweden to send and recive money, much like paypal. The app is nice to use and has some good features, one of them is their QR codes, using them you can also create links. Because of limitations of how many swish requests you can send, and because people sometimes don't have notifications or for some reason don't open their swish, this application was born. 
 
@@ -38,7 +41,6 @@ Ideas for the future
 - Being able to send links to multiple people
   - mail, phone, discord etc.
 - Scan a receipt
-- Integrate with banks????
 
 #
 Philip Magyar <br>

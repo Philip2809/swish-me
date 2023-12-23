@@ -8,11 +8,3 @@
   flex-direction: column;
   width: 100%;
 }
-
-.redirBtn {
-  color: white!important;
-  background: linear-gradient(135deg, rgb(2, 175, 210) 0%, 31.6138%, rgb(23, 99, 191) 63.2275%, 81.6138%, rgb(11, 43, 161) 100%);
-  padding: 2em;
-  border-radius: 1em;
-  text-decoration: none;
-}

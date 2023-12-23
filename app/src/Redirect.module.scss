@@ -1,0 +1,51 @@
+.card {
+    // background: rgb(200, 200, 200);
+    background: linear-gradient(135deg, rgb(2, 175, 210) 0%, 31.6138%, rgb(23, 99, 191) 63.2275%, 81.6138%, rgb(11, 43, 161) 100%);
+    color: black;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 1em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.number {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0;
+    padding: 0.4em;
+}
+
+.amount {
+    font-size: 1.3em;
+    color: blue;
+    font-weight: bold;
+    margin: 0;
+    padding: 0em 0.4em;
+}
+
+.message {
+    font-size: 1.1em;
+    margin: 0;
+    padding: 0.4em;
+}
+
+.swishBtn {
+    color: white !important;
+    // border: 1px solid white!important;
+    border-top: 1px solid white !important;
+    // background: linear-gradient(135deg, rgb(2, 175, 210) 0%, 31.6138%, rgb(23, 99, 191) 63.2275%, 81.6138%, rgb(11, 43, 161) 100%);
+    padding: 2em 0;
+    margin-top: 0.4em;
+    border-radius: 1em;
+    text-decoration: none;
+    width: 100%;
+}
+
+.warning {
+    color: rgb(84, 0, 0);
+    font-size: 1em;
+    margin: 0;
+    padding: 0.4em;
+}
